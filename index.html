@@ -1,0 +1,869 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Diagnóstico Mente Blindada</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,700;1,400;1,500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --verde:    #1F3D3A;
+  --verde2:   #162C2A;
+  --verde3:   #0E1E1D;
+  --bege:     #F5F1E8;
+  --bege2:    #EAE4D5;
+  --bege3:    #D8D2C4;
+  --dourado:  #C2A86B;
+  --dourado2: #E0C07A;
+  --dourado3: #A08040;
+  --branco:   #FFFFFF;
+  --preto:    #0F0F0F;
+  --txt-bege: rgba(245,241,232,0.90);
+  --txt-muted:#8A7D65;
+}
+
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--bege);
+  color: var(--preto);
+  overflow-x: hidden;
+}
+
+/* ─── TOPBAR ─────────────────────────────────── */
+.topbar {
+  background: var(--dourado);
+  padding: 10px 20px;
+  text-align: center;
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--verde3);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+/* ─── HERO ───────────────────────────────────── */
+.hero {
+  background: var(--verde3);
+  padding: 72px 44px 64px;
+  position: relative;
+  overflow: hidden;
+  text-align: center;
+}
+
+/* ornamento geométrico */
+.hero::before {
+  content: '';
+  position: absolute;
+  top: -80px; left: 50%;
+  transform: translateX(-50%);
+  width: 520px; height: 520px;
+  border-radius: 50%;
+  border: 60px solid rgba(194,168,107,0.05);
+  pointer-events: none;
+}
+
+.hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(194,168,107,0.15);
+  border: 1px solid rgba(194,168,107,0.35);
+  color: var(--dourado2);
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  padding: 7px 16px;
+  margin-bottom: 36px;
+  position: relative; z-index: 2;
+}
+
+.hero h1 {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(36px, 7vw, 56px);
+  font-weight: 500;
+  color: var(--bege);
+  line-height: 1.08;
+  margin-bottom: 24px;
+  position: relative; z-index: 2;
+}
+.hero h1 em {
+  font-style: italic;
+  color: var(--dourado2);
+  display: block;
+}
+
+.hero-sub {
+  font-size: 15px;
+  font-weight: 300;
+  color: rgba(245,241,232,0.55);
+  line-height: 1.75;
+  max-width: 480px;
+  margin: 0 auto 44px;
+  position: relative; z-index: 2;
+}
+
+.hero-cta {
+  display: inline-block;
+  background: var(--dourado);
+  color: var(--verde3);
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 16px 40px;
+  text-decoration: none;
+  transition: background 0.2s, transform 0.15s;
+  position: relative; z-index: 2;
+}
+.hero-cta:hover { background: var(--dourado2); transform: translateY(-2px); }
+
+.hero-nota {
+  margin-top: 18px;
+  font-size: 11px;
+  color: rgba(245,241,232,0.28);
+  font-weight: 300;
+  letter-spacing: 0.04em;
+  position: relative; z-index: 2;
+}
+
+/* ─── BLOCO DE 3 PROMESSAS ───────────────────── */
+.promessas {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  border-bottom: 1px solid var(--bege3);
+}
+.promessa {
+  padding: 36px 28px;
+  border-right: 1px solid var(--bege3);
+  text-align: center;
+}
+.promessa:last-child { border-right: none; }
+.promessa-num {
+  font-family: 'Playfair Display', serif;
+  font-size: 36px;
+  font-weight: 400;
+  color: var(--dourado3);
+  line-height: 1;
+  margin-bottom: 8px;
+}
+.promessa-texto {
+  font-size: 12px;
+  color: var(--verde);
+  font-weight: 500;
+  line-height: 1.5;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+/* ─── SINTOMAS ───────────────────────────────── */
+.sintomas {
+  background: var(--verde);
+  padding: 72px 44px;
+}
+.sintomas-titulo {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(26px, 5vw, 38px);
+  font-weight: 500;
+  color: var(--bege);
+  line-height: 1.2;
+  margin-bottom: 8px;
+}
+.sintomas-titulo em { color: var(--dourado2); font-style: italic; }
+.sintomas-sub {
+  font-size: 13px;
+  color: rgba(245,241,232,0.45);
+  font-weight: 300;
+  margin-bottom: 40px;
+  line-height: 1.6;
+}
+
+.sintomas-lista { display: flex; flex-direction: column; gap: 2px; }
+.sintoma {
+  display: grid;
+  grid-template-columns: 36px 1fr;
+  gap: 16px;
+  align-items: start;
+  padding: 18px 20px;
+  background: rgba(245,241,232,0.04);
+  border-left: 2px solid transparent;
+  transition: background 0.2s, border-color 0.2s;
+}
+.sintoma:hover {
+  background: rgba(194,168,107,0.08);
+  border-left-color: var(--dourado);
+}
+.sintoma-n {
+  font-family: 'Playfair Display', serif;
+  font-size: 13px;
+  color: var(--dourado);
+  opacity: 0.6;
+  padding-top: 2px;
+}
+.sintoma-corpo strong {
+  display: block;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--bege);
+  margin-bottom: 3px;
+}
+.sintoma-corpo span {
+  font-size: 12px;
+  color: rgba(245,241,232,0.42);
+  font-weight: 300;
+  line-height: 1.5;
+}
+
+/* ─── O QUE É ────────────────────────────────── */
+.oque {
+  background: var(--bege);
+  padding: 72px 44px;
+}
+.secao-label {
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--dourado3);
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.secao-label::after {
+  content: '';
+  flex: 1; height: 1px;
+  background: var(--bege3);
+}
+.oque h2 {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(26px, 5vw, 38px);
+  font-weight: 500;
+  color: var(--verde);
+  line-height: 1.18;
+  margin-bottom: 32px;
+}
+.oque h2 em { font-style: italic; color: var(--dourado3); }
+
+.entregas { display: flex; flex-direction: column; gap: 0; }
+.entrega {
+  display: grid;
+  grid-template-columns: 44px 1fr;
+  gap: 18px;
+  align-items: start;
+  padding: 22px 0;
+  border-bottom: 1px solid var(--bege3);
+}
+.entrega:first-child { border-top: 1px solid var(--bege3); }
+.entrega-n {
+  font-family: 'Playfair Display', serif;
+  font-size: 28px;
+  font-weight: 400;
+  color: var(--dourado);
+  line-height: 1;
+  padding-top: 2px;
+}
+.entrega h4 {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--preto);
+  margin-bottom: 4px;
+}
+.entrega p {
+  font-size: 13px;
+  color: #5A5A5A;
+  font-weight: 300;
+  line-height: 1.6;
+}
+
+/* ─── COMO FUNCIONA ──────────────────────────── */
+.como {
+  background: var(--verde3);
+  padding: 72px 44px;
+}
+.como h2 {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(24px, 5vw, 34px);
+  font-weight: 500;
+  color: var(--bege);
+  margin-bottom: 40px;
+  line-height: 1.2;
+}
+.como h2 em { color: var(--dourado2); font-style: italic; }
+
+.steps { display: flex; flex-direction: column; gap: 0; }
+.step {
+  display: grid;
+  grid-template-columns: 52px 1fr;
+  gap: 16px;
+  padding: 22px 0;
+  border-bottom: 1px solid rgba(194,168,107,0.12);
+  align-items: start;
+}
+.step:first-child { border-top: 1px solid rgba(194,168,107,0.12); }
+.step-n {
+  font-family: 'Playfair Display', serif;
+  font-size: 30px;
+  color: var(--dourado);
+  line-height: 1;
+  padding-top: 4px;
+}
+.step-tag {
+  display: inline-block;
+  font-size: 9px;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--dourado3);
+  background: rgba(194,168,107,0.14);
+  padding: 3px 9px;
+  margin-bottom: 7px;
+}
+.step h4 {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--bege);
+  margin-bottom: 4px;
+}
+.step p {
+  font-size: 12px;
+  color: rgba(245,241,232,0.45);
+  font-weight: 300;
+  line-height: 1.65;
+}
+
+/* ─── FORMULÁRIO ─────────────────────────────── */
+.form-secao {
+  background: var(--bege2);
+  padding: 72px 44px;
+}
+.form-secao h2 {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(26px, 5vw, 38px);
+  font-weight: 500;
+  color: var(--verde);
+  line-height: 1.18;
+  margin-bottom: 10px;
+}
+.form-secao h2 em { font-style: italic; color: var(--dourado3); }
+.form-intro {
+  font-size: 14px;
+  color: #5A5A5A;
+  font-weight: 300;
+  line-height: 1.7;
+  margin-bottom: 40px;
+}
+
+.form { display: flex; flex-direction: column; gap: 16px; }
+
+.fg { display: flex; flex-direction: column; gap: 6px; }
+.fg label {
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--verde);
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+}
+.fg input,
+.fg select,
+.fg textarea {
+  background: var(--branco);
+  border: 1.5px solid var(--bege3);
+  color: var(--preto);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 14px;
+  font-weight: 300;
+  padding: 14px 16px;
+  outline: none;
+  transition: border-color 0.2s;
+  width: 100%;
+  border-radius: 0;
+  appearance: none;
+}
+.fg input::placeholder,
+.fg textarea::placeholder { color: #B0A898; }
+.fg input:focus,
+.fg select:focus,
+.fg textarea:focus { border-color: var(--dourado); }
+.fg textarea { resize: vertical; min-height: 84px; line-height: 1.6; }
+.fg select { cursor: pointer; }
+.fg select option { background: #fff; color: var(--preto); }
+
+.radio-grupo { display: flex; flex-direction: column; gap: 6px; width: 100%; }
+.radio-op {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 13px 16px;
+  background: var(--branco);
+  border: 1.5px solid var(--bege3);
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 300;
+  color: #4A4A4A;
+  line-height: 1.45;
+  transition: border-color 0.15s, background 0.15s;
+  width: 100%;
+  box-sizing: border-box;
+}
+.radio-op input[type="radio"] {
+  margin-top: 3px;
+  accent-color: var(--dourado);
+  flex-shrink: 0;
+  width: 15px;
+  height: 15px;
+}
+.radio-op span { flex: 1; }
+.radio-op:hover { border-color: var(--dourado3); }
+.radio-op.sel {
+  border-color: var(--dourado);
+  background: rgba(194,168,107,0.08);
+  color: var(--preto);
+  font-weight: 400;
+}
+
+.btn-enviar {
+  background: var(--verde);
+  color: var(--bege);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 18px;
+  border: none;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.15s;
+  margin-top: 8px;
+}
+.btn-enviar:hover { background: var(--verde2); transform: translateY(-1px); }
+.btn-enviar:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+
+.form-rodape {
+  font-size: 11px;
+  color: var(--txt-muted);
+  font-weight: 300;
+  line-height: 1.6;
+  text-align: center;
+  margin-top: 12px;
+}
+
+/* Confirmação */
+.confirmacao {
+  display: none;
+  text-align: center;
+  padding: 32px 0 8px;
+}
+.confirmacao.vis { display: block; }
+.conf-mark {
+  width: 56px; height: 56px;
+  border-radius: 50%;
+  background: var(--verde);
+  display: flex; align-items: center; justify-content: center;
+  margin: 0 auto 24px;
+  font-family: 'Playfair Display', serif;
+  font-size: 22px;
+  color: var(--dourado2);
+}
+.conf-titulo {
+  font-family: 'Playfair Display', serif;
+  font-size: 30px;
+  font-weight: 500;
+  color: var(--verde);
+  margin-bottom: 14px;
+  line-height: 1.2;
+}
+.conf-titulo em { color: var(--dourado3); font-style: italic; }
+.conf-texto {
+  font-size: 14px;
+  color: #5A5A5A;
+  font-weight: 300;
+  line-height: 1.8;
+}
+
+/* ─── FAQ ────────────────────────────────────── */
+.faq {
+  background: var(--bege);
+  padding: 72px 44px;
+}
+.faq h2 {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(22px, 4vw, 32px);
+  font-weight: 500;
+  color: var(--verde);
+  margin-bottom: 36px;
+}
+.faq-item { border-bottom: 1px solid var(--bege3); }
+.faq-btn {
+  width: 100%;
+  background: none;
+  border: none;
+  text-align: left;
+  padding: 20px 0;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  color: var(--preto);
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  line-height: 1.4;
+}
+.faq-btn:hover { color: var(--verde); }
+.faq-seta {
+  font-size: 22px;
+  color: var(--dourado);
+  transition: transform 0.25s;
+  flex-shrink: 0;
+  line-height: 1;
+}
+.faq-item.ab .faq-seta { transform: rotate(45deg); }
+.faq-resp {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.35s ease;
+}
+.faq-item.ab .faq-resp { max-height: 280px; }
+.faq-resp p {
+  font-size: 13px;
+  font-weight: 300;
+  color: #5A5A5A;
+  line-height: 1.8;
+  padding-bottom: 20px;
+}
+
+/* ─── FOOTER ─────────────────────────────────── */
+.footer {
+  background: var(--verde3);
+  padding: 36px 44px;
+  text-align: center;
+}
+.footer-marca {
+  font-family: 'Playfair Display', serif;
+  font-size: 15px;
+  color: var(--bege);
+  margin-bottom: 10px;
+}
+.footer-txt {
+  font-size: 10px;
+  color: rgba(245,241,232,0.22);
+  font-weight: 300;
+  line-height: 1.7;
+  max-width: 480px;
+  margin: 0 auto;
+}
+
+/* ─── ANIMAÇÃO ───────────────────────────────── */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.hero-inner { animation: fadeUp 0.7s ease both; }
+
+/* ─── RESPONSIVO ─────────────────────────────── */
+@media (max-width: 600px) {
+  .promessas { grid-template-columns: 1fr; }
+  .promessa { border-right: none; border-bottom: 1px solid var(--bege3); }
+  .promessa:last-child { border-bottom: none; }
+  .hero, .sintomas, .oque, .como, .form-secao, .faq, .footer { padding-left: 24px; padding-right: 24px; }
+}
+</style>
+</head>
+<body>
+
+<!-- TOPBAR -->
+<div class="topbar">Vagas limitadas · Aplicações sujeitas a avaliação individual</div>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-inner">
+    <div class="hero-badge">Diagnóstico Mente Blindada</div>
+    <h1>Você está funcionando.<br><em>Mas não está bem.</em></h1>
+    <p class="hero-sub">Uma sessão individual para identificar a origem real da sua névoa mental — e o caminho para reverter isso com método, não com esforço.</p>
+    <a href="#aplicacao" class="hero-cta">Quero solicitar minha avaliação</a>
+    <p class="hero-nota">Sem cobrança nesta etapa · Retorno em até 24h</p>
+  </div>
+</section>
+
+<!-- 3 PROMESSAS -->
+<div class="promessas">
+  <div class="promessa">
+    <div class="promessa-num">90'</div>
+    <div class="promessa-texto">Sessão individual<br>ao vivo</div>
+  </div>
+  <div class="promessa">
+    <div class="promessa-num">9</div>
+    <div class="promessa-texto">Domínios<br>avaliados</div>
+  </div>
+  <div class="promessa">
+    <div class="promessa-num">48h</div>
+    <div class="promessa-texto">Relatório escrito<br>personalizado</div>
+  </div>
+</div>
+
+<!-- SINTOMAS -->
+<section class="sintomas">
+  <div class="sintomas-titulo">Você reconhece<br><em>algum desses padrões?</em></div>
+  <p class="sintomas-sub">Não são sintomas isolados. São sinais de um mesmo sistema fora de equilíbrio.</p>
+  <div class="sintomas-lista">
+    <div class="sintoma">
+      <div class="sintoma-n">01</div>
+      <div class="sintoma-corpo">
+        <strong>Névoa mental constante</strong>
+        <span>Dificuldade de focar, lentidão, sensação de "cabeça cheia" que não passa</span>
+      </div>
+    </div>
+    <div class="sintoma">
+      <div class="sintoma-n">02</div>
+      <div class="sintoma-corpo">
+        <strong>Cansaço que não restaura</strong>
+        <span>Dorme, descansa no fim de semana — e acorda igual ou pior</span>
+      </div>
+    </div>
+    <div class="sintoma">
+      <div class="sintoma-n">03</div>
+      <div class="sintoma-corpo">
+        <strong>Falhas de memória</strong>
+        <span>Esquece nomes, compromissos, o que foi fazer no meio do caminho</span>
+      </div>
+    </div>
+    <div class="sintoma">
+      <div class="sintoma-n">04</div>
+      <div class="sintoma-corpo">
+        <strong>Oscilação de humor sem causa</strong>
+        <span>Irritabilidade, ansiedade difusa, queda de motivação que varia sem explicação</span>
+      </div>
+    </div>
+    <div class="sintoma">
+      <div class="sintoma-n">05</div>
+      <div class="sintoma-corpo">
+        <strong>Só funciona sob pressão</strong>
+        <span>Produtividade que depende de adrenalina — sem urgência, o corpo trava</span>
+      </div>
+    </div>
+    <div class="sintoma">
+      <div class="sintoma-n">06</div>
+      <div class="sintoma-corpo">
+        <strong>Fome de doce à tarde</strong>
+        <span>Compulsão por açúcar e carboidrato que aparece sempre no mesmo horário</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- O QUE VOCÊ RECEBE -->
+<section class="oque">
+  <div class="secao-label">O que é o diagnóstico</div>
+  <h2>Uma sessão. Um mapa.<br><em>Um ponto de partida real.</em></h2>
+  <div class="entregas">
+    <div class="entrega">
+      <div class="entrega-n">1</div>
+      <div>
+        <h4>Anamnese integrativa prévia</h4>
+        <p>Formulário de 9 domínios — preenchido antes da sessão para aproveitarmos ao máximo o tempo ao vivo</p>
+      </div>
+    </div>
+    <div class="entrega">
+      <div class="entrega-n">2</div>
+      <div>
+        <h4>Sessão individual de 90 minutos</h4>
+        <p>Online, ao vivo. Análise do seu padrão específico com base na anamnese</p>
+      </div>
+    </div>
+    <div class="entrega">
+      <div class="entrega-n">3</div>
+      <div>
+        <h4>Relatório escrito personalizado</h4>
+        <p>Índice por domínio, achados principais e orientação de próximo passo — entregue em até 48h</p>
+      </div>
+    </div>
+    <div class="entrega">
+      <div class="entrega-n">4</div>
+      <div>
+        <h4>Indicação de caminho</h4>
+        <p>Se o protocolo for indicado, você recebe proposta com condição exclusiva para quem passou pelo diagnóstico</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- COMO FUNCIONA -->
+<section class="como">
+  <h2>Como funciona<br><em>o processo</em></h2>
+  <div class="steps">
+    <div class="step">
+      <div class="step-n">1</div>
+      <div>
+        <div class="step-tag">Agora</div>
+        <h4>Você preenche a aplicação</h4>
+        <p>Formulário abaixo. Leva cerca de 5 minutos. As respostas orientam minha análise antes de confirmar sua vaga.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-n">2</div>
+      <div>
+        <div class="step-tag">Em até 24h</div>
+        <h4>Avaliação individual</h4>
+        <p>Analiso sua aplicação. Se o diagnóstico fizer sentido para o seu momento, você recebe o link de agendamento e pagamento pelo WhatsApp.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-n">3</div>
+      <div>
+        <div class="step-tag">Antes da sessão</div>
+        <h4>Anamnese completa</h4>
+        <p>Formulário integrativo de 9 domínios — enviado após confirmação. Cerca de 20 minutos.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-n">4</div>
+      <div>
+        <div class="step-tag">Sessão ao vivo</div>
+        <h4>90 minutos · online · individual</h4>
+        <p>Você sai sabendo o que está acontecendo e o que fazer — não com uma lista de suplementos.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-n">5</div>
+      <div>
+        <div class="step-tag">Em até 48h</div>
+        <h4>Relatório escrito por domínio</h4>
+        <p>Documento personalizado com índice de comprometimento por área e orientação de próximo passo.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FORMULÁRIO -->
+<section class="form-secao" id="aplicacao">
+  <div class="secao-label">Aplicação</div>
+  <h2>Solicite sua<br><em>avaliação.</em></h2>
+  <p class="form-intro">Preencha com atenção. As respostas orientam minha análise antes de confirmar sua vaga. Sem cobrança nesta etapa.</p>
+
+  <div id="formWrap">
+    <form class="form" onsubmit="enviar(event)">
+
+      <div class="fg">
+        <label>Nome completo</label>
+        <input type="text" placeholder="Seu nome" required>
+      </div>
+
+      <div class="fg">
+        <label>WhatsApp com DDD</label>
+        <input type="tel" placeholder="(11) 99999-9999" required>
+      </div>
+
+      <div class="fg">
+        <label>E-mail</label>
+        <input type="email" placeholder="seuemail@exemplo.com" required>
+      </div>
+
+      <div class="fg">
+        <label>O que mais te incomoda hoje — em uma frase</label>
+        <input type="text" placeholder="Ex: acordo exausta e não consigo focar de manhã" required>
+      </div>
+
+      <div class="fg">
+        <label>Há quanto tempo você está neste estado?</label>
+        <div class="radio-grupo" id="rg1">
+          <label class="radio-op" onclick="sel(this,'rg1')"><input type="radio" name="tempo" required> Menos de 6 meses</label>
+          <label class="radio-op" onclick="sel(this,'rg1')"><input type="radio" name="tempo"> Entre 6 meses e 1 ano</label>
+          <label class="radio-op" onclick="sel(this,'rg1')"><input type="radio" name="tempo"> Mais de 1 ano</label>
+          <label class="radio-op" onclick="sel(this,'rg1')"><input type="radio" name="tempo"> Sempre fui assim — não me lembro diferente</label>
+        </div>
+      </div>
+
+      <div class="fg">
+        <label>Já tentou alguma abordagem antes?</label>
+        <textarea placeholder="Ex: suplementação, dieta, descanso — o que aconteceu..."></textarea>
+      </div>
+
+      <div class="fg">
+        <label>O que você espera entender depois do diagnóstico?</label>
+        <textarea placeholder="Pode ser honesta — isso ajuda muito na minha análise" required></textarea>
+      </div>
+
+      <button type="submit" class="btn-enviar" id="btnEnv">Enviar minha aplicação</button>
+      <p class="form-rodape">Suas respostas são confidenciais. Retorno em até 24h pelo WhatsApp informado.</p>
+    </form>
+  </div>
+
+  <div class="confirmacao" id="conf">
+    <div class="conf-mark">✦</div>
+    <div class="conf-titulo">Aplicação<br><em>recebida.</em></div>
+    <p class="conf-texto">Analiso em até 24h e retorno pelo WhatsApp que você informou. Se o diagnóstico fizer sentido para o seu momento, você recebe o link de agendamento diretamente.</p>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="faq">
+  <h2>Perguntas frequentes</h2>
+
+  <div class="faq-item">
+    <button class="faq-btn" onclick="faq(this)">Por que preciso preencher uma aplicação antes de comprar? <span class="faq-seta">+</span></button>
+    <div class="faq-resp"><p>Porque o diagnóstico não é para todo mundo — e não quero que você invista numa sessão que não vai gerar valor real para o seu caso. A análise prévia garante que chegamos à sessão já alinhadas e que o tempo é aproveitado ao máximo.</p></div>
+  </div>
+
+  <div class="faq-item">
+    <button class="faq-btn" onclick="faq(this)">Qual é o valor do diagnóstico? <span class="faq-seta">+</span></button>
+    <div class="faq-resp"><p>O valor é informado no retorno individualizado — após a análise da aplicação. Quem passa pelo diagnóstico e segue para o protocolo tem condição exclusiva que não está disponível em nenhuma outra entrada.</p></div>
+  </div>
+
+  <div class="faq-item">
+    <button class="faq-btn" onclick="faq(this)">O diagnóstico é uma consulta médica? <span class="faq-seta">+</span></button>
+    <div class="faq-resp"><p>Não. É uma sessão de avaliação integrativa conduzida por naturopata e terapeuta integrativa. Não inclui prescrição de medicamentos nem laudos clínicos. Pode ser complementar a um acompanhamento médico, não substitutivo.</p></div>
+  </div>
+
+  <div class="faq-item">
+    <button class="faq-btn" onclick="faq(this)">Sou obrigada a entrar no protocolo após o diagnóstico? <span class="faq-seta">+</span></button>
+    <div class="faq-resp"><p>Não. O diagnóstico tem valor por si mesmo — você sai com um mapa claro independente de qualquer continuidade. Se o protocolo for indicado, você recebe a proposta. A decisão é inteiramente sua.</p></div>
+  </div>
+
+  <div class="faq-item">
+    <button class="faq-btn" onclick="faq(this)">E se minha aplicação não for aprovada? <span class="faq-seta">+</span></button>
+    <div class="faq-resp"><p>Retorno pelo WhatsApp explicando o motivo e, se houver, indico o caminho mais adequado para o seu momento. Não há custo nem compromisso na aplicação.</p></div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="footer-marca">Protocolo Mente Blindada</div>
+  <p class="footer-txt">Este conteúdo tem caráter informativo e educativo. Não substitui avaliação médica, diagnóstico clínico ou tratamento psiquiátrico. Em caso de sintomas graves, procure um profissional de saúde.</p>
+</footer>
+
+<script>
+function sel(label, grupoId) {
+  document.querySelectorAll('#' + grupoId + ' .radio-op').forEach(l => l.classList.remove('sel'));
+  label.classList.add('sel');
+}
+
+function enviar(e) {
+  e.preventDefault();
+  const btn = document.getElementById('btnEnv');
+  btn.disabled = true;
+  btn.textContent = 'Enviando...';
+  setTimeout(() => {
+    document.getElementById('formWrap').style.display = 'none';
+    const conf = document.getElementById('conf');
+    conf.classList.add('vis');
+    conf.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }, 700);
+}
+
+function faq(btn) {
+  const item = btn.closest('.faq-item');
+  const aberto = item.classList.contains('ab');
+  document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('ab'));
+  if (!aberto) item.classList.add('ab');
+}
+</script>
+</body>
+</html>
